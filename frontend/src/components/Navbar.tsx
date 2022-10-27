@@ -13,31 +13,30 @@ import {
 } from "@chakra-ui/react";
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
 import { Link } from "react-router-dom";
-import logo from './logo.svg';
+import { ReactComponent as ReactLogo } from "./logo.svg";
+import RoundBox from "./RoundBox";
 
 const Navbar = () => {
   return (
     <>
       <Box p={3} borderRadius="0">
-        <Flex
-          justify="space-between"
-          align="center"
-        >
-          <HStack spacing="10px">
-            <Box>
-              <Link to="/">
-                <Text fontSize="xl" fontWeight="bold">
+        <Flex justify="space-between" align="center">
+          <RoundBox>
+            <HStack spacing="10px">
+              <ReactLogo width={30} height={30} />
+              <Box>
+                <Link to="/">
+                  <Text fontSize="xl" fontWeight="bold">
                     Subreddit Analyzer
-                </Text>
-              </Link>
-            </Box>
-            <Box>
-              <Icon>
-                {logo}
-              </Icon>
-            </Box>
-          </HStack>
-          <ColorModeSwitcher />
+                  </Text>
+                </Link>
+              </Box>
+            </HStack>
+          </RoundBox>
+
+          <RoundBox padding={2}>
+            <ColorModeSwitcher />
+          </RoundBox>
         </Flex>
       </Box>
     </>

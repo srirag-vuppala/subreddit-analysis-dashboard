@@ -4,11 +4,12 @@ import {
   extendTheme,
   withDefaultColorScheme,
 } from "@chakra-ui/react";
+import { mode } from "@chakra-ui/theme-tools";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "@fontsource/dm-sans";
 
 import Home from "./pages/Home";
-import Dashboard from "./pages/Dashboard";
+import { Dashboard, DashboardLoader } from "./pages/Dashboard";
 
 const router = createBrowserRouter([
   {
@@ -17,9 +18,30 @@ const router = createBrowserRouter([
   },
   {
     path: "/r/:subreddit",
+    loader: DashboardLoader,
     element: <Dashboard />,
   },
 ]);
+
+const styles = {
+  global: (props) => ({
+    body: {
+      color: mode("gray.800", "whiteAlpha.900")(props),
+      bg: mode("gray.200", "brand.900")(props),
+    },
+  }),
+};
+
+const components = {
+  Drawer: {
+    // setup light/dark mode component defaults
+    baseStyle: (props) => ({
+      dialog: {
+        bg: mode("white", "#141214")(props),
+      },
+    }),
+  },
+};
 
 const theme = extendTheme(
   {
@@ -37,11 +59,12 @@ const theme = extendTheme(
         900: "#322659",
       },
     },
-    useSystemColorMode: true,
     fonts: {
       heading: `'DM Sans', sans-serif`,
       body: `'DM Sans', sans-serif`,
     },
+    styles,
+    components,
   },
   withDefaultColorScheme({
     colorScheme: "brand",
