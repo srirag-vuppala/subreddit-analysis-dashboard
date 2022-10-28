@@ -81,7 +81,7 @@ interface FilterObject {
 async function DashboardLoader({ params }) {
   return defer({
     subredditInfo: fetch(
-      `${serverUrl}/get-subreddit-info?subreddit=${params.subreddit}&limit=500` 
+      `${serverUrl}/get-subreddit-info?subreddit=${params.subreddit}&limit=500` , {cache: "force-cache"}
     ).then((r) => r.json()),
   });
 }
