@@ -16,12 +16,10 @@ const SearchBox = () => {
   const navigate = useNavigate();
 
   const handleSubmit = (value) => {
-    console.log(value);
     navigate("/r/" + value);
   };
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
-      console.log("do validate");
       handleSubmit(text);
     }
   };

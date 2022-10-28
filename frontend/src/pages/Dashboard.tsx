@@ -169,7 +169,6 @@ const FilterComponent = ({ data, setData }: FilterComponentProps) => {
           val.hour < parseInt(endTime.split(":")[0])
       );
     }
-    console.log(newData);
     setData(newData);
   };
 
