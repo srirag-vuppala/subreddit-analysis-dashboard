@@ -1,5 +1,4 @@
 import os
-
 import utils
 from flask import Flask, request
 from flask_cors import CORS
@@ -26,13 +25,9 @@ def get_info():
     if subreddit is None or limit is None:
         return "Inputs improper", 400
     
-    limit= int(limit)
-    top_entries = reddit.subreddit(subreddit).top(limit=limit, time_filter="year")
+    top_entries = reddit.subreddit(subreddit).top(limit=int(limit), time_filter="year")
     clean_list = [{'title': sub.title, 'created_utc': sub.created_utc, 'hour': utils.extract_time(sub.created_utc), 'day': utils.extract_day(sub.created_utc)} for sub in list(top_entries)]
     return clean_list
-    
-    
-    
 
 if __name__ == '__main__':
     app.run(debug=True)
