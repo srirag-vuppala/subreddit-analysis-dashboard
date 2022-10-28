@@ -6,7 +6,7 @@ import SearchBox from "../components/SearchBox";
 const Home = () => {
   return (
     <>
-      <Navbar />
+      <Navbar></Navbar>
       <Flex justifyContent="center" alignItems="center" height="80vh">
         <SearchBox />
       </Flex>

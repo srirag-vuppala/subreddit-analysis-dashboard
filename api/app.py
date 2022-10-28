@@ -26,7 +26,7 @@ def get_info():
         return "Inputs improper", 400
     
     top_entries = reddit.subreddit(subreddit).top(limit=int(limit), time_filter="year")
-    clean_list = [{'title': sub.title, 'created_utc': sub.created_utc, 'hour': utils.extract_time(sub.created_utc), 'day': utils.extract_day(sub.created_utc)} for sub in list(top_entries)]
+    clean_list = [{'title': sub.title, 'noun_clean_title': utils.extract_noun_title_string(sub.title), 'clean_title': utils.extract_title_string(sub.title), 'created_utc': sub.created_utc, 'hour': utils.extract_time(sub.created_utc), 'day': utils.extract_day(sub.created_utc)} for sub in list(top_entries)]
     return clean_list
 
 if __name__ == '__main__':

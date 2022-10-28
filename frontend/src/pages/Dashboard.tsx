@@ -14,7 +14,6 @@ import {
   Button,
   MenuItem,
   MenuList,
-  Spacer,
   HStack,
   Tab,
   TabList,
@@ -22,15 +21,13 @@ import {
   TabPanels,
   Tabs,
   Input,
-  CloseButton,
   Badge,
+  Checkbox,
 } from "@chakra-ui/react";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useState } from "react";
 import {
   Await,
   defer,
-  Navigate,
-  useAsyncValue,
   useLoaderData,
   useNavigation,
   useParams,
@@ -84,7 +81,7 @@ interface FilterObject {
 async function DashboardLoader({ params }) {
   return defer({
     subredditInfo: fetch(
-      `${serverUrl}/get-subreddit-info?subreddit=${params.subreddit}&limit=50`
+      `${serverUrl}/get-subreddit-info?subreddit=${params.subreddit}&limit=500` 
     ).then((r) => r.json()),
   });
 }
@@ -332,6 +329,7 @@ const DashboardContent = ({ subredditInfo }: any) => {
   const textColor = useColorModeValue("DimGray", "WhiteSmoke");
   const { colorMode, toggleColorMode } = useColorMode();
   const darkMode: boolean = colorMode === "dark";
+  const [nounCheck, setNounCheck] = useState(false);
 
   return (
     <>
@@ -414,17 +412,18 @@ const DashboardContent = ({ subredditInfo }: any) => {
           </RoundBox>
 
           <RoundBox id="common-words-graph" margin={5} padding={5}>
-            <Center>
+            <Center gap={2}>
               <Heading as="h5" size="sm">
                 Top 10 most common words in titles
               </Heading>
+              <Checkbox isChecked={nounCheck} onChange={() => setNounCheck(!nounCheck)}>Noun Only</Checkbox>
             </Center>
 
             <Box mt={8}>
               <Treemap
                 width={600}
                 height={350}
-                data={commonWordsInTitles(data)}
+                data={commonWordsInTitles(data, nounCheck)}
                 dataKey="size"
                 stroke="#fff"
                 fill="var(--chakra-colors-brand-400)"

@@ -1,10 +1,10 @@
-import { stickyWords } from "./constants";
-
 export interface PostItem {
   created_utc: number;
   day: string;
   hour: number;
   title: string;
+  clean_title: string;
+  noun_clean_title: string;
 }
 
 export function postsByDayOfWeek(arr: PostItem[]) {
@@ -59,22 +59,27 @@ const pickHighest = (obj, num = 1) => {
   return requiredObj;
 };
 
-export function commonWordsInTitles(arr: PostItem[]) {
- 
+export function commonWordsInTitles(arr: PostItem[], nounCheck: boolean) {
   //   Join all titles in a string
   let str = "";
-  for (const val of arr) {
-    str = str + " " + val.title;
+  if (nounCheck){
+    for (const val of arr) {
+      str = str + " " + val.clean_title;
+    }
+  } else {
+    for (const val of arr) {
+      str = str + " " + val.noun_clean_title;
+    }
+ 
   }
 
   str = str.toLowerCase();
   var splitUp = str.split(/\s/);
-  let wordsArray = splitUp.filter(function (x) {
-    return !stickyWords.includes(x.trim());
-  });
-  wordsArray = wordsArray.filter((element) => {
+
+  var wordsArray = splitUp.filter((element) => {
     return element !== "";
   });
+
   let wordOccurrences = {};
   for (let i = 0; i < wordsArray.length; i++) {
     wordOccurrences[wordsArray[i].trim().toLowerCase()] =
@@ -92,7 +97,7 @@ export function commonWordsInTitles(arr: PostItem[]) {
 export function commonLengthInTitles(arr: PostItem[]) {
   let allLengths = new Array();
   for (const val of arr) {
-    var splitUp = val.title.split(/\s/);
+    var splitUp = val.clean_title.split(/\s/);
     allLengths.push(splitUp.length);
   }
   const counts = {};
